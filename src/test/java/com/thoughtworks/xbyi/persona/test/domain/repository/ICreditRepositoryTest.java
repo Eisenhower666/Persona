@@ -53,9 +53,14 @@ public class ICreditRepositoryTest {
         return  creditRepository.save(credit);
     }
 
+    private Credit insert(Credit creditInfo) {
+        return  creditRepository.save(creditInfo);
+    }
+
     @Test
     public void find_all_data() {
         Credit credit = insert("teacher");
+//        Credit credit = new Credit("IT打工人", 100.0, 100.0, 10, 1, 80)；
         assert credit.getId() != null;
         logger.debug(credit.toString());
         List<Credit> results = creditRepository.findAll();

@@ -6,4 +6,5 @@
     <include file="db.changelog-2011070015_create_test.sql" relativeToChangelogFile="true"/>
     <include file="db.changelog-2011090948_create_demographic.sql" relativeToChangelogFile="true"/>
     <include file="db.changelog-2011101453_create_credit.sql" relativeToChangelogFile="true"/>
+    <include file="db.changelog-2011111540_create_consume.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

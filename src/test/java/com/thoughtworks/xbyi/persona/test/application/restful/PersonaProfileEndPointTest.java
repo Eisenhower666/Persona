@@ -1,9 +1,11 @@
 package com.thoughtworks.xbyi.persona.test.application.restful;
 
 import com.thoughtworks.xbyi.persona.Application;
+import com.thoughtworks.xbyi.persona.domain.entity.ConsumeFeature;
 import com.thoughtworks.xbyi.persona.domain.entity.Credit;
 import com.thoughtworks.xbyi.persona.domain.entity.Demographic;
 import com.thoughtworks.xbyi.persona.domain.repository.DemographicRepository;
+import com.thoughtworks.xbyi.persona.domain.repository.IConsumeRepository;
 import com.thoughtworks.xbyi.persona.domain.repository.ICreditRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +39,9 @@ public class PersonaProfileEndPointTest {
     @Autowired
     private ICreditRepository creditRepository;
 
+    @Autowired
+    private IConsumeRepository consumeRepository;
+
     private Credit create(String job){
         Credit credit = new Credit();
         credit.setJob(job);
@@ -47,6 +52,15 @@ public class PersonaProfileEndPointTest {
         Demographic demographic = new Demographic();
         demographic.setName(name);
         return demographicRepository.save(demographic);
+    }
+
+    private ConsumeFeature insert(int catering, int mother, int car, int financial) {
+        ConsumeFeature consume = new ConsumeFeature();
+        consume.setCatering(catering);
+        consume.setMother(mother);
+        consume.setCar(car);
+        consume.setFinancial(financial);
+        return consumeRepository.save(consume);
     }
 
     @Test
@@ -63,6 +77,16 @@ public class PersonaProfileEndPointTest {
     public void get_all_credit() throws Exception{
         create("dagongren");
         mockMvc.perform(get("/v1/api/credit").contextPath("/v1/api").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    public void get_all_consume() throws Exception{
+        insert(1, 1, 1, 0);
+        mockMvc.perform(get("/v1/api/consume").contextPath("/v1/api").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))

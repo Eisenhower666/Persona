@@ -1,9 +1,9 @@
 package com.thoughtworks.xbyi.persona.test.domain.repository;
 
 import com.thoughtworks.xbyi.persona.Application;
+import com.thoughtworks.xbyi.persona.domain.entity.ConsumeFeature;
 import com.thoughtworks.xbyi.persona.domain.entity.Credit;
-import com.thoughtworks.xbyi.persona.domain.entity.Demographic;
-import com.thoughtworks.xbyi.persona.domain.repository.DemographicRepository;
+import com.thoughtworks.xbyi.persona.domain.repository.IConsumeRepository;
 import com.thoughtworks.xbyi.persona.domain.repository.ICreditRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class})
 @ActiveProfiles("test")
-public class ICreditRepositoryTest {
+public class IConsumeRepositoryTest {
     private final static Logger logger = LoggerFactory.getLogger(ICreditRepositoryTest.class);
     @Autowired
     private DataSource dataSource;
@@ -37,33 +36,36 @@ public class ICreditRepositoryTest {
     private EntityManager entityManager;
 
     @Autowired
-    private ICreditRepository creditRepository;
+    private IConsumeRepository consumeRepository;
 
     @Test
     public void injectedComponentsAreNotNull() {
         assertThat(dataSource).isNotNull();
         assertThat(jdbcTemplate).isNotNull();
         assertThat(entityManager).isNotNull();
-        assertThat(creditRepository).isNotNull();
+        assertThat(consumeRepository).isNotNull();
     }
 
-    private Credit insert(String job) {
-        Credit credit = new Credit();
-        credit.setJob(job);
-        return  creditRepository.save(credit);
+
+    private ConsumeFeature insert(ConsumeFeature consumeFeature) {
+        return  consumeRepository.save(consumeFeature);
     }
 
-    private Credit insert(Credit creditInfo) {
-        return  creditRepository.save(creditInfo);
+    private ConsumeFeature insert(int relax, int mother, int car) {
+        ConsumeFeature consume = new ConsumeFeature();
+        consume.setCatering(relax);
+        consume.setMother(mother);
+        consume.setCar(car);
+        return  consumeRepository.save(consume);
     }
 
     @Test
     public void find_all_data() {
-        Credit credit = insert("teacher");
-//        Credit credit = new Credit("IT打工人", 100.0, 100.0, 10, 1, 80)；
-        assert credit.getId() != null;
-        logger.debug(credit.toString());
-        List<Credit> results = creditRepository.findAll();
+//        ConsumeFeature credit = new ConsumeFeature(0, 1, 0, 1, 1,0, 1);
+        ConsumeFeature consume = insert(1,1,1);
+        assert consume.getId() != null;
+        logger.debug(consume.toString());
+        List<ConsumeFeature> results = consumeRepository.findAll();
         assertThat(results.size() > 0);
     }
 

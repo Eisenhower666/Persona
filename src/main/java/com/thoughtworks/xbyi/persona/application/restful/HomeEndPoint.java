@@ -21,4 +21,11 @@ public class HomeEndPoint {
         message.put("job", "dagongren");
         return message;
     }
+
+    @GetMapping("/consumes")
+    Map<String, String> consume() {
+        Map message = new HashMap<String, String>();
+        message.put("car", "1");
+        return message;
+    }
 }

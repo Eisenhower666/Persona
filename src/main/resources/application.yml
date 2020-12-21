@@ -14,7 +14,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/persona?serverTimezone=GMT%2B8
     username: root
-#    password: persona
+    password: root
   jpa:
     properties:
       hibernate:

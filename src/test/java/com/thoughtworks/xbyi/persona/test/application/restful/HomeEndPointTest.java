@@ -57,4 +57,14 @@ public class HomeEndPointTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.car", is("1")));
     }
+
+    @Test
+    public void given_home_url_when_git_get_then_show_consume_message() throws Exception {
+        logger.debug(">>>>> test...");
+        mockMvc.perform(get("/v1/api/intrest").contextPath("/v1/api").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.outdoors", is("1")));
+    }
 }

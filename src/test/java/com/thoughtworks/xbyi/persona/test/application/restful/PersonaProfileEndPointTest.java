@@ -4,9 +4,11 @@ import com.thoughtworks.xbyi.persona.Application;
 import com.thoughtworks.xbyi.persona.domain.entity.ConsumeFeature;
 import com.thoughtworks.xbyi.persona.domain.entity.Credit;
 import com.thoughtworks.xbyi.persona.domain.entity.Demographic;
+import com.thoughtworks.xbyi.persona.domain.entity.Intrests;
 import com.thoughtworks.xbyi.persona.domain.repository.DemographicRepository;
 import com.thoughtworks.xbyi.persona.domain.repository.IConsumeRepository;
 import com.thoughtworks.xbyi.persona.domain.repository.ICreditRepository;
+import com.thoughtworks.xbyi.persona.domain.repository.IntrestsRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -42,6 +44,9 @@ public class PersonaProfileEndPointTest {
     @Autowired
     private IConsumeRepository consumeRepository;
 
+    @Autowired
+    private IntrestsRepository intrestsRepository;
+
     private Credit create(String job){
         Credit credit = new Credit();
         credit.setJob(job);
@@ -61,6 +66,14 @@ public class PersonaProfileEndPointTest {
         consume.setCar(car);
         consume.setFinancial(financial);
         return consumeRepository.save(consume);
+    }
+
+    private Intrests add(int outdoors, int techEnthusiasts, int car, int fitnessEnthusiasts) {
+        Intrests intrests = new Intrests();
+        intrests.setOutdoors(outdoors);
+        intrests.setTechEnthusiasts(techEnthusiasts);
+        intrests.setFitnessEnthusiasts(fitnessEnthusiasts);
+        return  intrestsRepository.save(intrests);
     }
 
     @Test
@@ -87,6 +100,16 @@ public class PersonaProfileEndPointTest {
     public void get_all_consume() throws Exception{
         insert(1, 1, 1, 0);
         mockMvc.perform(get("/v1/api/consume").contextPath("/v1/api").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    public void get_all_intrests() throws Exception{
+        add(1, 1, 1, 0);
+        mockMvc.perform(get("/v1/api/intrests").contextPath("/v1/api").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))

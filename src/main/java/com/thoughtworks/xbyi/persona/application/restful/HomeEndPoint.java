@@ -28,4 +28,11 @@ public class HomeEndPoint {
         message.put("car", "1");
         return message;
     }
+
+    @GetMapping("/intrest")
+    Map<String, String> intrest(){
+        Map intrest = new HashMap<String, String>();
+        intrest.put("outdoors",  "1");
+        return intrest;
+    }
 }
